@@ -1,0 +1,33 @@
+from typing import List
+
+def openFile(path:str, mode:str) -> str:
+    file = None
+    try:
+        file = open(path, mode)
+        print("Opened Successfully")
+    except Exception as e:
+        print(f"File Failed to Open: {e}")
+    return file
+    
+def addSkill(path:str, name:str, keypoints:List[str]):
+    file = openFile(path, "a")
+    try:
+        file.write(f"\n{name},{keypoints}")
+        print("Added Successfully")
+    except Exception as e:
+        print(f"Failed to Add: {e}")
+    file.close()
+
+def readFile(path:str):
+    file = openFile(path, "r")
+    try:
+        print(f"Read Successfully\n{file.read()}")
+    except Exception as e:
+        print(f"Failed to Read File: {e}")
+
+def readSkill(path:str,name:str):
+    file = openFile(path,"r")
+    for line in file:
+        if name in line:
+            return line
+    return f"{name} Not Found"
