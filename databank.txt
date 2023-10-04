@@ -1,0 +1,3 @@
+
+Round Kick,['hands up']
+Front Kick,('Hands Up', 'Kick Order', 'Foot Position')

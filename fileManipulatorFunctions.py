@@ -29,5 +29,6 @@ def readSkill(path:str,name:str):
     file = openFile(path,"r")
     for line in file:
         if name in line:
-            return line
-    return f"{name} Not Found"
+            print(f"Read Successfully\n{line}")
+            return
+    print(f"{name} Not Found")
