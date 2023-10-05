@@ -32,3 +32,16 @@ def readSkill(path:str,name:str):
             print(f"Read Successfully\n{line}")
             return
     print(f"{name} Not Found")
+
+def createFile(name:str):
+    file = None
+    try:
+        file = open(name,"x")
+    except:
+        print("File already exists")
+    return file
+
+def createLessonPlan(Class:str,quarter:int,week:int,skill:str):
+    file = createFile(f"{Class}{quarter}{week}.txt")
+    if file == None:
+        return

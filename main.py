@@ -1,4 +1,4 @@
-import fileManipulatorFunctions as fm
+import fileManipulatorFunctions as fmf
 from generalFunctions import smartInput
 import tkinter as tk
 
@@ -12,7 +12,11 @@ match option:
         keypointOne = input("Keypoint One: ")
         keypointTwo = input("Keypoint Two: ")
         keypointThree = input("Keypoint Three: ")
-        fm.addSkill(path,name,[keypointOne,keypointTwo,keypointThree])
+        fmf.addSkill(path,name,[keypointOne,keypointTwo,keypointThree])
     case 1:
         name = smartInput("Skill Name: ",str)
-        fm.readSkill(path, name)
+        fmf.readSkill(path, name)
+    case 2:
+        fmf.readFile(path)
+    case 3:
+        fmf.createLessonPlan()
