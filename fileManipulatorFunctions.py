@@ -1,4 +1,6 @@
 from typing import List
+from openpyxl import Workbook
+from openpyxl import styles
 
 def openFile(path:str, mode:str) -> str:
     file = None
@@ -42,10 +44,30 @@ def createFile(name:str):
     return file
 
 def createLessonPlan(database:str,Class:str,quarter:int,week:int,skills:List[str]):
-    file = createFile(f"{Class} Qtr {quarter} Week {week}.txt")
-    if file != None:
-        for skill in skills:
-            file.write(readSkill(database,skill))
-        print("File Created Successfuly")
-    else:
-        print("Error creating lesson plan")
+    wb = Workbook()
+    sheet = wb.active
+    sheet["A1"] = "Section"
+    sheet["B1"] = "Time"
+    sheet["C1"] = "Excercise / Layers"
+    sheet["D1"] = "Format / Equipment"
+    sheet["E1"] = "Key Points"
+
+    sheet["A2"] = "Bow In"
+    sheet["B2"] = "2"
+    sheet["C2"] = "Bow In"
+    sheet["D2"] = "Line Up"
+    sheet["E2"] = "Stand Still"
+
+    formatSpreadsheet(sheet)
+    wb.save(f"{Class} Qtr {quarter} Week {week}.xlsx")
+    wb.close()
+
+def formatSpreadsheet(sheet):
+    cols = ["A","B","C","D","E"]
+    width = [15.13,5.13,25.13,16.38,12.63]
+
+    for i, col in enumerate(cols):
+        sheet.column_dimensions[col].width = width[i]
+        sheet.cell(1,i+1).alignment = styles.Alignment("center")
+
+def addSkillToSpreadsheet():

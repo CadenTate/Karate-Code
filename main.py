@@ -24,5 +24,4 @@ while True:
             qtr = smartInput("Quarter: ")
             week = smartInput("Week: ")
             skills = smartInput("Skills: ")
-            print(skills)
             fmf.createLessonPlan(path,Class,qtr,week,skills.split(","))
