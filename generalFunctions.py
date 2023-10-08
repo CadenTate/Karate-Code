@@ -1,4 +1,4 @@
-def smartInput(msg:str,datatype:type,bounds=None):
+def smartInput(msg:str,datatype:type=str,bounds=None):
     while True:
         try:
             user = datatype(input(msg))

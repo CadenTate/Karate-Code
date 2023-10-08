@@ -13,15 +13,15 @@ def addSkill(path:str, name:str, keypoints:List[str]):
     file = openFile(path, "a")
     try:
         file.write(f"\n{name},{keypoints}")
-        print("Added Successfully")
+        print("Skill Added Successfully")
     except Exception as e:
-        print(f"Failed to Add: {e}")
+        print(f"Failed to Add Skill: {e}")
     file.close()
 
 def readFile(path:str):
     file = openFile(path, "r")
     try:
-        print(f"Read Successfully\n{file.read()}")
+        print(f"File Read Successfully\n{file.read()}")
     except Exception as e:
         print(f"Failed to Read File: {e}")
 
@@ -30,7 +30,7 @@ def readSkill(path:str,name:str):
     for line in file:
         if name in line:
             print(f"Read Successfully\n{line}")
-            return
+            return line
     print(f"{name} Not Found")
 
 def createFile(name:str):
@@ -41,7 +41,11 @@ def createFile(name:str):
         print("File already exists")
     return file
 
-def createLessonPlan(Class:str,quarter:int,week:int,skill:str):
-    file = createFile(f"{Class}{quarter}{week}.txt")
-    if file == None:
-        return
+def createLessonPlan(database:str,Class:str,quarter:int,week:int,skills:List[str]):
+    file = createFile(f"{Class} Qtr {quarter} Week {week}.txt")
+    if file != None:
+        for skill in skills:
+            file.write(readSkill(database,skill))
+        print("File Created Successfuly")
+    else:
+        print("Error creating lesson plan")
