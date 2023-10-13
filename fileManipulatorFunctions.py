@@ -1,6 +1,5 @@
 from typing import List, IO, Optional
-from openpyxl import Workbook
-from openpyxl import styles
+from openpyxl import Workbook, styles
 
 def openDatabase(database:str, mode:str) -> Optional[IO]:
     file = None
@@ -15,7 +14,7 @@ def addSkill(database:str, name:str, keypoints:List[str]) -> None:
     file = openDatabase(database, "a")
     if file is not None:    
         try:
-            file.write(f"\n[{name},{keypoints}]")
+            file.write(f"\n{name},{keypoints}")
             print("Skill Added Successfully")
         except Exception as e:
             print(f"Failed to Add Skill: {e}")
@@ -59,6 +58,10 @@ def createLessonPlan(saveLocation:str,database:str,Class:str,quarter:int,week:in
         
     skillOne = readSkill(database,skillOneName)
     skillTwo = readSkill(database,skillTwoName)
+
+    if skillOne != None:
+        skillOne = skillOne.split(",")
+        sheet["A9"] = skillOne[0]
 
     wb.save(f"{Class} Qtr {quarter} Week {week}.xlsx")
     wb.close()
