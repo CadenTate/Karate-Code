@@ -18,7 +18,7 @@ while True:
             fmf.addSkill(dataBase,skillType,name,[keypointOne,keypointTwo,keypointThree])
         case 1:
             name = smartInput("Skill Name: ",str)
-            fmf.readSkill(dataBase, name)
+            print(fmf.readSkill(dataBase, name))
         case 2:
             print(fmf.readFile(dataBase))
         case 3:
