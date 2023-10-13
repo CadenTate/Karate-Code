@@ -2,7 +2,7 @@ import fileManipulatorFunctions as fmf
 from generalFunctions import smartInput
 import tkinter as tk
 
-dataBase = r"C:\Users\Caden\Desktop\Code\LessonPlanMaker\databank.txt"
+dataBase = r"databank.txt"
 saveLocation = r"C:\Users\Caden\Desktop\Lesson Plans"
 
 while True:
@@ -10,16 +10,17 @@ while True:
 
     match option:
         case 0:
+            skillType = smartInput("Skill Type: ")
             name = smartInput("Skill Name: ")
             keypointOne = smartInput("Keypoint One: ")
             keypointTwo = smartInput("Keypoint Two: ")
             keypointThree = smartInput("Keypoint Three: ")
-            fmf.addSkill(dataBase,name,[keypointOne,keypointTwo,keypointThree])
+            fmf.addSkill(dataBase,skillType,name,[keypointOne,keypointTwo,keypointThree])
         case 1:
             name = smartInput("Skill Name: ",str)
             fmf.readSkill(dataBase, name)
         case 2:
-            fmf.readFile(dataBase)
+            print(fmf.readFile(dataBase))
         case 3:
             Class = smartInput("Class: ")
             qtr = smartInput("Quarter: ")

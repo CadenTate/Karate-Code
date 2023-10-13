@@ -1,6 +1,7 @@
 from typing import List, IO, Optional
 from openpyxl import Workbook, styles
 
+# Opens the database
 def openDatabase(database:str, mode:str) -> Optional[IO]:
     file = None
     try:
@@ -9,35 +10,39 @@ def openDatabase(database:str, mode:str) -> Optional[IO]:
     except Exception as e:
         print(f"File Failed to Open: {e}")
     return file
-    
-def addSkill(database:str, name:str, keypoints:List[str]) -> None:
+
+# Adds skill to database in <name,[keypoints]> format
+def addSkill(database:str, type:str,name:str, keypoints:List[str]) -> None:
     file = openDatabase(database, "a")
     if file is not None:    
         try:
-            file.write(f"\n{name},{keypoints}")
+            file.write(f"\n{type},{name},{keypoints[0]},{keypoints[1]},{keypoints[2]}")
             print("Skill Added Successfully")
         except Exception as e:
             print(f"Failed to Add Skill: {e}")
         finally:
             file.close()
 
+# Calls openDatabase then returns the file
 def readFile(database:str) -> None:
     file = openDatabase(database, "r")
     if file is not None:
         try:
-            print(f"File Read Successfully\n{file.read()}")
+            return file.read()
         except Exception as e:
             print(f"Failed to Read File: {e}")
+        file.close()
 
+# Returns searched for skill
 def readSkill(database:str,skillName:str) -> Optional[str]:
     file = openDatabase(database,"r")
     if file is not None:
         for line in file:
             if skillName in line:
-                print(f"Read Successfully\n{line}")
                 return line
     print(f"{skillName} Not Found")
 
+# Creates a new file
 def createFile(name:str) -> Optional[IO]:
     file = None
     try:
@@ -46,6 +51,7 @@ def createFile(name:str) -> Optional[IO]:
         print("File already exists")
     return file
 
+# Creates a new Lesson plan
 def createLessonPlan(saveLocation:str,database:str,Class:str,quarter:int,week:int,skillOneName:str,skillTwoName:str) -> str:
     wb = Workbook()
     sheet = wb.active
@@ -61,13 +67,26 @@ def createLessonPlan(saveLocation:str,database:str,Class:str,quarter:int,week:in
 
     if skillOne != None:
         skillOne = skillOne.split(",")
-        sheet["A9"] = skillOne[0]
+        print(skillOne)
+        print(skillOne[0])
+        sheet["A9"] = skillOne[0] # type: ignore
+        sheet["C9"] = skillOne[1] # type: ignore
+        sheet["E9"] = skillOne[2] # type: ignore
+        sheet["E10"] = skillOne[3] # type: ignore
+        sheet["E11"] = skillOne[4] # type: ignore
+
+
+    if skillTwo != None:
+        skillTwo = skillTwo.split(",")
+        sheet["A17"] = skillTwo[0] # type: ignore
+        
 
     wb.save(f"{Class} Qtr {quarter} Week {week}.xlsx")
     wb.close()
 
     return saveLocation
 
+# Initial formating of spreadsheet
 def formatSpreadsheet(sheet):
     cols = ["A","B","C","D","E"]
     width = [15.13,5.13,25.13,16.38,12.63]
@@ -76,6 +95,7 @@ def formatSpreadsheet(sheet):
         sheet.column_dimensions[col].width = width[i]
         sheet.cell(1,i+1).alignment = styles.Alignment("center")
 
+# Adds Lesson Plan constants
 def initialSetup(sheet):
     # Headings
     sheet["A1"] = "Section"
