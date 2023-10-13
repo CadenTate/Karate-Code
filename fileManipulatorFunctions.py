@@ -38,7 +38,8 @@ def readSkill(database:str,skillName:str) -> Optional[str]:
     file = openDatabase(database,"r")
     if file is not None:
         for line in file:
-            if skillName in line:
+            line = line.split(",")
+            if line[1] == skillName:
                 return line
     print(f"{skillName} Not Found")
 
@@ -66,9 +67,6 @@ def createLessonPlan(saveLocation:str,database:str,Class:str,quarter:int,week:in
     skillTwo = readSkill(database,skillTwoName)
 
     if skillOne != None:
-        skillOne = skillOne.split(",")
-        print(skillOne)
-        print(skillOne[0])
         sheet["A9"] = skillOne[0] # type: ignore
         sheet["C9"] = skillOne[1] # type: ignore
         sheet["E9"] = skillOne[2] # type: ignore
@@ -79,6 +77,10 @@ def createLessonPlan(saveLocation:str,database:str,Class:str,quarter:int,week:in
     if skillTwo != None:
         skillTwo = skillTwo.split(",")
         sheet["A17"] = skillTwo[0] # type: ignore
+        sheet["C17"] = skillTwo[1] # type: ignore
+        sheet["E17"] = skillTwo[2] # type: ignore
+        sheet["E18"] = skillTwo[3] # type: ignore
+        sheet["E19"] = skillTwo[4] # type: ignore
         
 
     wb.save(f"{Class} Qtr {quarter} Week {week}.xlsx")
@@ -89,7 +91,7 @@ def createLessonPlan(saveLocation:str,database:str,Class:str,quarter:int,week:in
 # Initial formating of spreadsheet
 def formatSpreadsheet(sheet):
     cols = ["A","B","C","D","E"]
-    width = [15.13,5.13,25.13,16.38,12.63]
+    width = [15,5,25,15,15]
 
     for i, col in enumerate(cols):
         sheet.column_dimensions[col].width = width[i]
@@ -104,7 +106,7 @@ def initialSetup(sheet):
     sheet["D1"] = "Format / Equipment"
     sheet["E1"] = "Key Points"
 
-    # Section 1
+    # Bow In
     sheet["A2"] = "Bow In"
     sheet["B2"] = "2"
     sheet["C2"] = "Bow In"
@@ -112,7 +114,30 @@ def initialSetup(sheet):
     sheet["E2"] = "Stand Still"
     sheet["E3"] = "Participate"
 
-    # Section 2
+    # Warm up
     sheet["A4"] = "Warm Up"
     sheet["E4"] = "Fast"
     sheet["E5"] = "Participate"
+
+    # Mat Chat
+    sheet["A15"] = "Mat Chat"
+    sheet["D15"] = "Horseshoe"
+    sheet["E15"] = "Sit Still"
+    sheet["E16"] = "Listening"
+
+    # HEF
+    sheet["A24"] = "High Energy Finish"
+    sheet["B24"] = "6"
+
+    # Announcements
+    sheet["A27"] = "Announcements"
+    sheet["B27"] = "3"
+    sheet["C27"] = "Announcements"
+    sheet["D27"] = "Line Up"
+    sheet["E27"] = "Stand Still"
+    sheet["E28"] = "Quiet"
+
+    # End Class
+    sheet["A29"] = "End Class"
+    sheet["B29"] = "2"
+    sheet["D29"] = "Line Up"
