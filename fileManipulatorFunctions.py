@@ -1,6 +1,8 @@
 from typing import List, IO, Optional
 from openpyxl import Workbook, styles
 
+from generalFunctions import smartInput
+
 # Opens the database
 def openDatabase(database:str, mode:str) -> Optional[IO]:
     file = None
@@ -12,11 +14,16 @@ def openDatabase(database:str, mode:str) -> Optional[IO]:
     return file
 
 # Adds skill to database in <name,[keypoints]> format
-def addSkill(database:str, type:str,name:str, keypoints:List[str]) -> None:
+def addSkill(database:str) -> None:
     file = openDatabase(database, "a")
     if file is not None:    
         try:
-            file.write(f"\n{type},{name},{keypoints[0]},{keypoints[1]},{keypoints[2]}")
+            type = smartInput("Skill Type: ")
+            name = smartInput("Skill Name: ")
+            keypointOne = smartInput("Keypoint One: ")
+            keypointTwo = smartInput("Keypoint Two: ")
+            keypointThree = smartInput("Keypoint Three: ")
+            file.write(f"\n{type},{name},{keypointOne},{keypointTwo},{keypointThree}")
             print("Skill Added Successfully")
         except Exception as e:
             print(f"Failed to Add Skill: {e}")
@@ -36,12 +43,16 @@ def readFile(database:str) -> None:
 # Returns searched for skill
 def readSkill(database:str,skillName:str) -> Optional[str]:
     file = openDatabase(database,"r")
+    # Rework this code
     if file is not None:
-        for line in file:
-            line = line.split(",")
-            if line[1] == skillName:
-                return line
-    print(f"{skillName} Not Found")
+        while True:
+            for line in file:
+                line = line.split(",")
+                print(line[1])
+                if line[1] == skillName:
+                    return line
+            if smartInput(f"{skillName} Not Found. Would you like to create a new skill? Y/N: ") == 'Y':
+                addSkill(database)
 
 # Creates a new file
 def createFile(name:str) -> Optional[IO]:
@@ -91,7 +102,7 @@ def createLessonPlan(saveLocation:str,database:str,Class:str,quarter:int,week:in
 # Initial formating of spreadsheet
 def formatSpreadsheet(sheet):
     cols = ["A","B","C","D","E"]
-    width = [15,5,25,15,15]
+    width = [20,5,25,15,15]
 
     for i, col in enumerate(cols):
         sheet.column_dimensions[col].width = width[i]
@@ -116,11 +127,13 @@ def initialSetup(sheet):
 
     # Warm up
     sheet["A4"] = "Warm Up"
+    sheet["B4"] = "8"
     sheet["E4"] = "Fast"
     sheet["E5"] = "Participate"
 
     # Mat Chat
     sheet["A15"] = "Mat Chat"
+    sheet["B15"] = "3"
     sheet["D15"] = "Horseshoe"
     sheet["E15"] = "Sit Still"
     sheet["E16"] = "Listening"

@@ -1,3 +1,5 @@
 Skill Type,Name,Keypoints
 Sparring Skills,Sparring Combo #2,Foot Position/Distance When Stepping,Keep Hands Up/Elbows In,Turn Hips on Rear Hand Punch
 Kicking Skill,Knee Strikes,Gooseneck Grab With Hands,Crunch & Pull To Your Hip,Hit w/Bottom of the thigh
+Striking,Sparring Combination #2,Same foot distance,Hands Up/Elbows In,Turn Hips,Squat
+Kick,Front Kick,Hands Up/Elbows IN,4-Steps,Ball of Foot
