@@ -1,7 +1,10 @@
 import pandas as pd
 import tkinter as tk
+from datetime import datetime
 
-file = r"Membership_2025-03-03.csv"
+date = datetime.now().strftime("%Y-%m-%d")
+
+file = "Membership_" + date + ".csv"
 
 df = pd.read_csv(file)
 
