@@ -2,9 +2,9 @@ import pandas as pd
 import tkinter as tk
 from datetime import datetime
 
-date = datetime.now().strftime("%Y-%m-%d")
+date = datetime.now()
 
-file = "Membership_" + date + ".csv"
+file = "Membership_" + date.strftime("%Y-%m-%d") + ".csv"
 
 df = pd.read_csv(file)
 
@@ -23,10 +23,12 @@ df["Clean Days"] = pd.to_numeric(df["Last Attendance"]
 # print(list(filter(lambda x: x > 13 and x <= 20, df["Clean Days"])))
 # print(list(filter(lambda x: x > 20, df["Clean Days"])))
 
-print("ONE WEEK\n", df.loc[(df["Clean Days"] > 6) & (df["Clean Days"] <= 13), ['Participant First Name', "Participant Last Name", 'Clean Days']])
-print("\nTWO WEEKS\n", df.loc[(df["Clean Days"] > 13) & (df["Clean Days"] <= 20), ['Participant First Name', "Participant Last Name", 'Clean Days']])
-print("\nTHREE WEEKS\n", df.loc[(df["Clean Days"] > 20) & (df["Clean Days"] <= 27), ['Participant First Name', "Participant Last Name", 'Clean Days']])
-print("\nFOUR OR MORE WEEKS\n", df.loc[(df["Clean Days"] > 27), ['Participant First Name', "Participant Last Name", 'Clean Days']])
+df["Last Date"] = pd.to_datetime(pd.Timestamp(date) - pd.to_timedelta(df["Clean Days"], unit="D")).dt.strftime("%B %d, %Y")
+
+print("ONE WEEK\n", df.loc[(df["Clean Days"] > 6) & (df["Clean Days"] <= 13), ['Participant First Name', "Participant Last Name", 'Last Date']])
+print("\nTWO WEEKS\n", df.loc[(df["Clean Days"] > 13) & (df["Clean Days"] <= 20), ['Participant First Name', "Participant Last Name", 'Last Date']])
+print("\nTHREE WEEKS\n", df.loc[(df["Clean Days"] > 20) & (df["Clean Days"] <= 27), ['Participant First Name', "Participant Last Name", 'Last Date']])
+print("\nFOUR OR MORE WEEKS\n", df.loc[(df["Clean Days"] > 27), ['Participant First Name', "Participant Last Name", 'Last Date']])
 
 # GUI
 # def submit():
@@ -48,4 +50,3 @@ print("\nFOUR OR MORE WEEKS\n", df.loc[(df["Clean Days"] > 27), ['Participant Fi
 # submitButton.grid(row=1, column=1)
 
 # root.mainloop()
-
